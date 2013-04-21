@@ -11,16 +11,16 @@ int exec_external(char* command, char** argv);
 
 main()
 {
-int i, j, na;
-char *cwd, *pwd, *owd, *username, *systemname, *homedir,*nd, *comm, *temp, **arglist, **t;
-arglist = (char**)malloc(MAX_COMMAND_ARGUMENTS*sizeof(char*));
-systemname = (char*)malloc(HOST_NAME_MAX*sizeof(char));
-comm = (char*)malloc(MAX_COMMAND_SIZE*sizeof(char));
-		homedir = getenv ( "HOME" );
-		username = getenv ( "USER" );
-		cwd = getenv ( "PWD" );
-		owd = getenv ( "OLDPWD" );
-		gethostname(systemname, HOST_NAME_MAX);
+	int i, j, na;
+	char *cwd, *pwd, *owd, *username, *systemname, *homedir,*nd, *comm, *temp, **arglist, **t;
+	arglist = (char**)malloc(MAX_COMMAND_ARGUMENTS*sizeof(char*));
+	systemname = (char*)malloc(HOST_NAME_MAX*sizeof(char));
+	comm = (char*)malloc(MAX_COMMAND_SIZE*sizeof(char));
+	homedir = getenv ( "HOME" );
+	username = getenv ( "USER" );
+	cwd = getenv ( "PWD" );
+	owd = getenv ( "OLDPWD" );
+	gethostname(systemname, HOST_NAME_MAX);
 	do{
 		t = arglist;
 		arglist = (char**)malloc(MAX_COMMAND_ARGUMENTS*sizeof(char*));
@@ -39,8 +39,7 @@ comm = (char*)malloc(MAX_COMMAND_SIZE*sizeof(char));
 			if(comm[j] == ' ' && comm[j+1] != ' ')
 			{
 				comm[j] = '\0';
-				arglist[++i] = comm+j+1; //if space at end last arg null
-				//printf("%s\n", arglist[i-1]);
+				arglist[++i] = comm+j+1;
 			}
 		na = i;
 		if(na == MAX_COMMAND_ARGUMENTS)
@@ -55,7 +54,7 @@ comm = (char*)malloc(MAX_COMMAND_SIZE*sizeof(char));
 
 		else if(strcmp(arglist[0],"cd") == 0)
 		{
-			i = 3;//printf("%s ",homedir);
+			i = 3;
 			if(arglist[1] == NULL)
 			{
 				if(homedir == NULL)
@@ -90,7 +89,6 @@ comm = (char*)malloc(MAX_COMMAND_SIZE*sizeof(char));
 				if((temp != getenv("OLDPWD")) && (temp != getenv("PWD")))
 					free(temp);
 			}
-			//	printf("Chdir=%d\n",i);
 		}
 		
 		else if(strcmp(arglist[0],"quit"))
@@ -112,21 +110,3 @@ int exec_external(char* command, char** argv)
 		wait(NULL);
 	return 0;
 }
-/*
-int gethostname(char *name, size_t namelen);
-
-
-*/
-/**char *get_current_dir_name(void);
-struct passwd *getpwnam(const char *name);
-
-struct passwd {
-               char   *pw_name;       /* username
-               char   *pw_passwd;     /* user password
-               uid_t   pw_uid;        /* user ID 
-               gid_t   pw_gid;        /* group ID
-               char   *pw_gecos;      /* user information 
-               char   *pw_dir;        /* home directory 
-               char   *pw_shell;      /* shell program 
-           };
-**/
